@@ -16,6 +16,7 @@ void APlayerPacMan::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = Cast<APacManGameModeBase>(UGameplayStatics::GetGameMode(this));
+    PlayerController = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
     
     GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerPacMan::OnCollision);
 
@@ -46,6 +47,11 @@ void APlayerPacMan::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
     PlayerInputComponent->BindAction("NewGame", IE_Pressed, this, &APlayerPacMan::GameModeNewGame);
     PlayerInputComponent->BindAction("Restart", IE_Pressed, this, &APlayerPacMan::GameModeRestart);
     PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &APlayerPacMan::GameModePause);
+
+    PlayerInputComponent->BindAction("WTurnaround", IE_Pressed, this, &APlayerPacMan::WTurnaround);
+    PlayerInputComponent->BindAction("STurnaround", IE_Pressed, this, &APlayerPacMan::STurnaround);
+    PlayerInputComponent->BindAction("ATurnaround", IE_Pressed, this, &APlayerPacMan::ATurnaround);
+    PlayerInputComponent->BindAction("DTurnaround", IE_Pressed, this, &APlayerPacMan::DTurnaround);
 }
 
 void APlayerPacMan::MoveXAxis(float AxisValue)
@@ -110,7 +116,6 @@ void APlayerPacMan::OnCollision(UPrimitiveComponent* HitComponent, AActor* Other
                 GameMode->SetGameState(EGameState::Win);
             }
         }
-        UE_LOG(LogTemp, Warning, TEXT("Remain collectables: %d"), CollectablesToEat);
     }
 }
 
@@ -123,5 +128,37 @@ void APlayerPacMan::Killed()
     else
     {
         SetActorLocation(StartPoint);
+    }
+}
+
+void APlayerPacMan::WTurnaround()
+{
+    if(GameMode->GetGameState() == EGameState::Playing)
+    {
+        SetActorRotation(FRotator(0, -90, 0));
+    }
+}
+
+void APlayerPacMan::STurnaround()
+{
+    if(GameMode->GetGameState() == EGameState::Playing)
+    {
+        SetActorRotation(FRotator(0, 90, 0));
+    }
+}
+
+void APlayerPacMan::ATurnaround()
+{
+    if(GameMode->GetGameState() == EGameState::Playing)
+    {
+        SetActorRotation(FRotator(0, 180, 0));
+    }
+}
+
+void APlayerPacMan::DTurnaround()
+{
+    if(GameMode->GetGameState() == EGameState::Playing)
+    {
+        SetActorRotation(FRotator(0, 0, 0));
     }
 }

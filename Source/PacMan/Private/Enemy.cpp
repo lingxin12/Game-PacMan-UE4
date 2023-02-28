@@ -102,6 +102,7 @@ void AEnemy::SetMove(bool MoveIt)
 
 void AEnemy::Killed()
 {
+    UE_LOG(LogTemp, Warning, TEXT("Enemy::Killed"));
     if(bIsDead)
     {
         return;

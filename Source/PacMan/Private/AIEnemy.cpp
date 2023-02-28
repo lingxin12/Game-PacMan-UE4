@@ -45,6 +45,8 @@ void AAIEnemy::SearchNewPoint()
 
 void AAIEnemy::GoHome()
 {
+    // MoveToLocation(HomeLocation);
+    Bot->SetActorLocation(HomeLocation); // 1.1
     MoveToLocation(HomeLocation);
     GetWorldTimerManager().SetTimer(TimerHandle, this, &AAIEnemy::ReArm, 5.0f, false);
 }
@@ -57,5 +59,5 @@ void AAIEnemy::ReArm()
 
 void AAIEnemy::StopMove()
 {
-    // MoveToLocation(Bot->GetActorLocation());
+    MoveToLocation(Bot->GetActorLocation());
 }

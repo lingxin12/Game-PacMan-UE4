@@ -9,6 +9,7 @@
 #include "Collectables.h"
 #include "Components/CapsuleComponent.h"
 #include "EngineUtils.h"
+#include "GameFramework/PlayerController.h"
 #include "PlayerPacMan.generated.h"
 
 UCLASS()
@@ -34,6 +35,11 @@ public:
     void MoveXAxis(float AxisValue);
     void MoveYAxis(float AxisValue);
 
+    void WTurnaround();
+    void STurnaround();
+    void ATurnaround();
+    void DTurnaround();
+
     UFUNCTION()
     void OnCollision(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
@@ -46,9 +52,9 @@ public:
 
     void Killed();
 
-    FString Gss[5] = {TEXT("Menu"), TEXT("Playing"), TEXT("Pause"), TEXT("Win"), TEXT("GameOver")};
-
 private:
+    APlayerController* PlayerController;
+
     FVector CurrentVelocity;
     APacManGameModeBase* GameMode;
 
